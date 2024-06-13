@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+@model IEnumerable<Khachhang>
+<table>
+    <tr>
+        <th>Id khách hàng</th>
+        <th>Họ tên</th>
+        <th>Địa chỉ</th>
+        <th>Điện thoại</th>
+        <th>Tên đăng nhập</th>
+        <th>Mật khẩu</th>
+        <th>Thao tác</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.IdKhachhang</td>
+            <td>@item.Hoten</td>
+            <td>@item.Diachi</td>
+            <td>@item.Dienthoai</td>
+            <td>@item.IdNguoidungNavigation.Tendangnhap</td>
+            <td>@item.IdNguoidungNavigation.Matkhau</td>
+            <td>
+                <a asp-action="EditKhachHang" asp-route-makhachhang="@item.IdKhachhang" class="edit-button" style="color: black; background-color: yellow; text-decoration: none; margin-right: 10px;">Sửa</a>
+                <a asp-action="DeleteKhachHang" asp-route-makhachhang="@item.IdKhachhang" class="delete-button" style="color: black; background-color: red; text-decoration: none;">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<style>
+    .create-area {
+        color: black;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .create-button {
+        color: black;
+        background-color: lime;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+</style>
