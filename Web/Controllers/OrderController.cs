@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -104,7 +105,10 @@ namespace Web.Controllers
                 chitiethoadon.Soluong = 1;
                 chitiethoadon.Dongbia = product.Giaban;
                 chitiethoadon.Masp = product.Masp;
+                
                 var giohang = _context.Giohangs.Where(p => p.IdKhachhang == makhachhang).FirstOrDefault();
+                var sanpham = _context.Sanphams.First(p => p.Masp == chitiethoadon.Masp);
+                sanpham.Soluong--;
                 _context.Remove(giohang);
                 _context.Add(chitiethoadon);
                 _context.SaveChanges();
@@ -121,8 +125,9 @@ namespace Web.Controllers
             var nguoidung = _context.Nguoidungs.SingleOrDefault(p => p.Tendangnhap.Equals(User.Identity.Name));
             var khachhang = _context.Khachhangs.SingleOrDefault(p=>p.IdNguoidung.Equals(nguoidung.IdNguoidung));
             var hoadon = _context.Hoadons.Where(p => p.IdKhachhang.Equals(khachhang.IdKhachhang));
-
-            return View(hoadon);
+            var cthoadon = _context.Cthoadons.Include(p=>p.MaspNavigation).Include(p=>p.MahdNavigation).Where(p=>p.MahdNavigation.IdKhachhang.Equals(khachhang.IdKhachhang)).ToList();
+            ViewBag.hoadon = hoadon;
+            return View(cthoadon);
         }
     }
 }

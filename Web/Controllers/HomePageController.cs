@@ -13,27 +13,27 @@ namespace Web.Controllers
 		public IActionResult Index()
 		{
             var nguoidung = _context.Nguoidungs.SingleOrDefault(p => p.Tendangnhap.Equals(User.Identity.Name));
-
-            if (_context.Nhanviens.SingleOrDefault(p => p.IdNguoidung.Equals(nguoidung.IdNguoidung)) != null)
+            if (nguoidung.Vaitro.Equals("NHANVIEN"))
             {
                 return View();
             }
             if (User.Identity.IsAuthenticated)
-			{
+            {               
                 var khachhang = _context.Khachhangs.SingleOrDefault(p => p.IdNguoidung.Equals(nguoidung.IdNguoidung));
+
                 ViewBag.Cart = _context.Giohangs.Count(p => p.IdKhachhang.Equals(khachhang.IdKhachhang));
-            }
+            }  
 			return View();
 		}
 		public IActionResult About()
 		{
 
             var nguoidung = _context.Nguoidungs.SingleOrDefault(p => p.Tendangnhap.Equals(User.Identity.Name));
-
-            if (_context.Nhanviens.SingleOrDefault(p => p.IdNguoidung.Equals(nguoidung.IdNguoidung)) != null)
+            if (nguoidung.Vaitro.Equals("NHANVIEN"))
             {
                 return View();
             }
+
             if (User.Identity.IsAuthenticated)
             {
                 var khachhang = _context.Khachhangs.SingleOrDefault(p => p.IdNguoidung.Equals(nguoidung.IdNguoidung));
